@@ -18,10 +18,11 @@ class CreateTableApplicationItems extends Migration
             $table->string('name')->nullable();
             $table->integer('item_type_id')->nullable();
             $table->string('item_type_justification')->nullable();
-            $table->decimal('price', 8, 2)->nullable();
+            $table->decimal('price_per_unit', 8, 2)->nullable();
             $table->integer('quantity')->nullable();
-            $table->decimal('oum', 8, 2)->nullable();
-            $table->integer('application_id')->nullable();
+            $table->string('uom')->nullable();
+            $table->decimal('total_items_price', 8, 2)->nullable();
+            $table->unsignedBigInteger('application_id')->nullable();
             $table->timestamps();
         });
     }

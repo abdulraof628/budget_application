@@ -25,7 +25,6 @@ class CreateTableApplications extends Migration
             $table->string('dean_remark')->nullable()->nullable();
             $table->integer('bursary_status_id')->nullable();
             $table->string('bursary_remark')->nullable()->nullable();
-            $table->unsignedBigInteger('application_item_id')->nullable();
             $table->timestamps();
         });
     }

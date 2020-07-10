@@ -14,9 +14,9 @@ class AddForeignKey extends Migration
     public function up()
     {
         //
-        Schema::table('applications', function (Blueprint $table) {
+        Schema::table('application_items', function (Blueprint $table) {
 
-            $table->foreign('application_item_id')->references('id')->on('application_items')->onDelete('cascade');
+            $table->foreign('application_id')->references('id')->on('applications')->onDelete('cascade');
         });
     }
 

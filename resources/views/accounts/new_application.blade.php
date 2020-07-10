@@ -196,9 +196,9 @@
                         <div class="row pt-5">
                             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                                 <div class="table-responsive ">
-                                    <table class="table">
+                                    <table class="table table_items">
                                         <thead>
-                                            <tr>
+                                            <tr class="no_item_head">
                                                 <th scope="col">No</th>
                                                 <th scope="col">Item Name</th>
                                                 <th scope="col">Type</th>
@@ -294,6 +294,8 @@
             }); 
             
 
+            var total_price_applied = new Array();
+
             $('.add_item').on('click', function(){
 
                 var name = $('.item_name').val();
@@ -302,7 +304,11 @@
                 var price_per_unit = $('.price_per_unit').val();
                 var quantity = $('.quantity').val();
                 var uom = $('.uom').val();
-                var total = price_per_unit * quantity;
+                var total_items_price = price_per_unit * quantity;
+                total_price_applied.push(total_items_price);
+                var sum = total_price_applied.reduce(function(a, b){
+                    return a + b;
+                }, 0);
 
                 if($('.items tr').length >= 1){
                     $('.items').append('<tr>'+
@@ -313,15 +319,16 @@
                     '<td>'+price_per_unit+'</td>'+
                     '<td>'+quantity+'</td>'+
                     '<td>'+uom+'</td>'+
-                    '<td>'+total+'</td>'+
+                    '<td>'+total_items_price+'</td>'+
                     '<td><a href="javascript:;" class="btn btn-danger remove_item" title="Delete item"><i class="fa fa-trash"></i></a></td>'+
-                    '<td class="d-none><input name="name[]" value="'+name+'" hidden></td>'+
-                    '<td class="d-none><input name="item_type[]" value="'+item_type+'" hidden></td>'+
-                    '<td class="d-none><input name="item_type_justification[]" value="'+item_type_justification+'" hidden></td>'+
-                    '<td class="d-none><input name="price_per_unit[]" value="'+price_per_unit+'" hidden></td>'+
-                    '<td class="d-none><input name="quantity[]" value="'+quantity+'" hidden></td>'+
-                    '<td class="d-none><input name="uom[]" value="'+uom+'" hidden></td>'+
-                    '<td class="d-none><input name="total[]" value="'+total+'" hidden></td>'+
+                    '<td class="d-none"><input name="name[]" value="'+name+'" hidden></td>'+
+                    '<td class="d-none"><input name="item_type[]" value="'+item_type+'" hidden></td>'+
+                    '<td class="d-none"><input name="item_type_justification[]" value="'+item_type_justification+'" hidden></td>'+
+                    '<td class="d-none"><input name="price_per_unit[]" value="'+price_per_unit+'" hidden></td>'+
+                    '<td class="d-none"><input name="quantity[]" value="'+quantity+'" hidden></td>'+
+                    '<td class="d-none"><input name="uom[]" value="'+uom+'" hidden></td>'+
+                    '<td class="d-none"><input name="total_items_price[]" value="'+total_items_price+'" hidden></td>'+
+                    '<td class="d-none"><input name="total_price_applied" value="'+sum+'" hidden></td>'+
                     '</tr>');
                     $('.no_item').hide();
                 }
@@ -340,13 +347,20 @@
 
             $('#ApplicationForm').on('submit', function(event){
                 event.preventDefault();
+                $("#new_application").modal("hide");
+                $('#new_application').on('hidden.bs.modal', function () {
+                    $('#new_application form')[0].reset();
+                });
+                $(".table_items").find("tr:not('.no_item, .no_item_head')").remove();
+                $('.no_item').show();
                 $.ajax({
                     url:'{{Route("new_application_store" )}}',
                     type:'post',
                     data:$(this).serialize(),
                     dataType:'json',
                     success:function(data) {
-                        window.location.href = "/new/application";
+                        window.location.href = "/new_application";
+                        
                     }
                 });
                 // return false;
