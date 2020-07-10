@@ -13,6 +13,11 @@
     <link rel="stylesheet" href="{{asset('vendor/charts/c3charts/c3.css')}}">
     <link rel="stylesheet" href="{{asset('vendor/fonts/flag-icon-css/flag-icon.min.css')}}">
     <title>Dashboard</title>
+    <style>
+            .modal-lg {
+            max-width: 1080px;
+        }
+    </style>
 @endsection
 
 @section('top_navbar')
@@ -111,7 +116,7 @@
                     </div>
                     <div class="modal-body">
                         <div class="row">
-                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 border-bottom">
                                 <form>
                                     <div class="form-group">
                                         <label class="col-form-label">Application Title</label>
@@ -129,7 +134,7 @@
                                             <option value="">BM</option>
                                         </select>
                                     </div>
-                                    <div class="form-group">
+                                    <div class="form-group pb-3">
                                         <label class="col-form-label">Usage Type</label>
                                         <select name="" class="form-control">
                                             <option value="">Please select usage type</option>
@@ -138,6 +143,93 @@
                                         </select>
                                     </div>
                                 </form>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6 pt-3">
+                                <div class="form-group">
+                                    <label class="col-form-label">Item Name</label>
+                                    <input type="text" name="" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6">
+                                <div class="form-group">
+                                    <label class="col-form-label">Type</label>
+                                    <select name="" class="form-control item_type">
+                                        <option value="">Please select item type</option>
+                                        <option value="1">Asset</option>
+                                        <option value="2">Service</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6 item_type_clarification">
+                                <div class="form-group">
+                                    <label class="col-form-label">Type Justification</label>
+                                    <select name="" class="form-control item_type_clarification">
+                                        <option value=""></option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6">
+                                <div class="form-group">
+                                    <label class="col-form-label">Price Per Unit</label>
+                                    <input type="number" name="" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6">
+                                <div class="form-group">
+                                    <label class="col-form-label">Quantity</label>
+                                    <input type="number" name="" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6">
+                                <div class="form-group">
+                                    <label class="col-form-label">UOM (Unit of measurement)</label>
+                                    <input type="text" name="" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6">
+                                <div class="form-group">
+                                <label class="col-form-label">Total</label>
+                                <input type="number" name="" class="form-control" disabled>
+                                </div>
+                            </div>
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                                <div class="table-responsive ">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">#</th>
+                                                <th scope="col">First</th>
+                                                <th scope="col">Last</th>
+                                                <th scope="col">Handle</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <th scope="row">1</th>
+                                                <td>Mark</td>
+                                                <td>Otto</td>
+                                                <td>@mdo</td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">2</th>
+                                                <td>Jacob</td>
+                                                <td>Thornton</td>
+                                                <td>@fat</td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">3</th>
+                                                <td colspan="2">Larry the Bird</td>
+                                                <td>@twitter</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -157,73 +249,6 @@
                     </div>
                     <div class="modal-body">
                         <form>
-                            <div class="row">
-                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6">
-                                    <div class="form-group">
-                                        <label class="col-form-label">Item Name</label>
-                                        <input type="text" name="" class="form-control">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6">
-                                    <div class="form-group">
-                                        <label class="col-form-label">Type</label>
-                                        <select name="" class="form-control item_type">
-                                            <option value="">Please select item type</option>
-                                            <option value="1">Asset</option>
-                                            <option value="2">Service</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6 asset_type" style="display:none">
-                                        <select name="" class="form-control asset_type" style="display:none">
-                                            <option value="">Please select asset type</option>
-                                            <option value="1">New Purchase</option>
-                                            <option value="2">Replacement</option>
-                                        </select>
-                                </div>
-                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6 service_type" style="display:none">
-                                    <div class="form-group service_type" style="display:none">
-                                        <select name="" class="form-control service_type" style="display:none">
-                                            <option value="">Please select service type</option>
-                                            <option value="1">Maintenance</option>
-                                            <option value="2">Training</option>
-                                            <option value="3">Consultation</option>
-                                            <option value="4">Honorarium</option>
-                                            <option value="5">Reimbursement</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6">
-                                    <div class="form-group">
-                                        <label class="col-form-label">Price Per Unit</label>
-                                        <input type="number" name="" class="form-control">
-                                    </div>
-                                </div>
-                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6">
-                                    <div class="form-group">
-                                        <label class="col-form-label">Quantity</label>
-                                        <input type="number" name="" class="form-control">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6">
-                                    <div class="form-group">
-                                        <label class="col-form-label">UOM (Unit of measurement)</label>
-                                        <input type="text" name="" class="form-control">
-                                    </div>
-                                </div>
-                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6">
-                                    <div class="form-group">
-                                    <label class="col-form-label">Total</label>
-                                    <input type="number" name="" class="form-control" disabled>
-                                    </div>
-                                </div>
-                            </div>
                     </div>
                     <div class="modal-footer">
                         <a href="#" class="btn btn-light" data-dismiss="modal">Cancel</a>
@@ -263,20 +288,4 @@
     <script src="{{asset('vendor/charts/c3charts/d3-5.4.0.min.js')}}"></script>
     <script src="{{asset('vendor/charts/c3charts/C3chartjs.js')}}"></script>
     <script src="{{asset('js/dashboard-ecommerce.js')}}"></script>
-    <script>
-        $('.item_type').on('change', function(){
-            if($('.item_type').val() == 1){
-                $('.asset_type').show();
-                $('.service_type').hide();
-            }
-            else if($('.item_type').val() == 2){
-                $('.asset_type').hide();
-                $('.service_type').show();
-            }
-            else{
-                $('.asset_type').hide();
-                $('.service_type').hide();
-            }
-        });
-    </script>
 @endsection
