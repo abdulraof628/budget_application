@@ -23,3 +23,8 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/account_dashboard', 'AccountsController@index')->name('account_dashboard');
 Route::get('/new_application', 'AccountsController@newApplication')->name('new_application');
+Route::post('/new_application/submit', 'AccountsController@newApplicationStore')->name('new_application_store');
+
+
+Route::get('/new_application/budget_types', 'AccountsController@newApplicationBudgetTypes')->name('budget_types');//Retrieve data from db and listdown
+Route::get('/new_application/usage_types', 'AccountsController@newApplicationUsageTypes')->name('usage_types');//Retrieve data from db and listdown

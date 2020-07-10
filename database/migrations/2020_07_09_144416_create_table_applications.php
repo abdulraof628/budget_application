@@ -15,18 +15,18 @@ class CreateTableApplications extends Migration
     {
         Schema::create('applications', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('title');
-            $table->string('justfication');
-            $table->integer('budget_type_id');
-            $table->integer('usage_type_id');
-            $table->decimal('total_price_applied', 8, 2);
-            $table->decimal('total_price_approved', 8, 2);
-            $table->integer('dean_status_id');
-            $table->string('dean_remark')->nullable();
-            $table->integer('bursary_status_id');
-            $table->string('bursary_remark')->nullable();
-            $table->unsignedBigInteger('application_item_id');
-
+            $table->string('title')->nullable();
+            $table->string('justification')->nullable();
+            $table->integer('budget_type_id')->nullable();
+            $table->integer('usage_type_id')->nullable();
+            $table->decimal('total_price_applied', 8, 2)->nullable();
+            $table->decimal('total_price_approved', 8, 2)->nullable();
+            $table->integer('dean_status_id')->nullable();
+            $table->string('dean_remark')->nullable()->nullable();
+            $table->integer('bursary_status_id')->nullable();
+            $table->string('bursary_remark')->nullable()->nullable();
+            $table->unsignedBigInteger('application_item_id')->nullable();
+            $table->timestamps();
         });
     }
 

@@ -15,13 +15,13 @@ class CreateTableApplicationItems extends Migration
     {
         Schema::create('application_items', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('name');
-            $table->integer('item_type_id');
-            $table->string('item_type_justification');
-            $table->decimal('price', 8, 2);
-            $table->integer('quantity');
-            $table->decimal('oum', 8, 2);
-            $table->integer('application_id');
+            $table->string('name')->nullable();
+            $table->integer('item_type_id')->nullable();
+            $table->string('item_type_justification')->nullable();
+            $table->decimal('price', 8, 2)->nullable();
+            $table->integer('quantity')->nullable();
+            $table->decimal('oum', 8, 2)->nullable();
+            $table->integer('application_id')->nullable();
             $table->timestamps();
         });
     }

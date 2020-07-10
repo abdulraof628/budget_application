@@ -16,7 +16,6 @@ class CreateTableBudgetTypes extends Migration
         Schema::create('budget_types', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('type_name');
-            $table->timestamps();
         });
     }
 

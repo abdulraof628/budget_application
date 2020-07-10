@@ -16,7 +16,6 @@ class CreateTableApplicationItemTypes extends Migration
         Schema::create('application_item_types', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('item_type_name');
-            $table->timestamps();
         });
     }
 
