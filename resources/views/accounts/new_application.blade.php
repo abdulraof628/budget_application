@@ -109,7 +109,7 @@
                         <a href="#" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></a>
                     </div>
                     <div class="modal-body">
-                    <form id="ApplicationForm" method="post" novalidate>
+                    <form id="ApplicationForm" action="{{Route('new_application_store')}}" method="post" novalidate>
                     @csrf
                         <div class="row">
                             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 border-bottom">
@@ -222,7 +222,7 @@
                         </div>
                     <div class="modal-footer">
                         <a href="#" class="btn btn-light" data-dismiss="modal">Cancel</a>
-                        <button class="btn btn-success">Submit</button>
+                        <button type="submit" class="btn btn-success">Submit</button>
                     </div>
                     </form>
                 </div>
@@ -292,7 +292,6 @@
                     $('.total').val("RM "+ $('.price_per_unit').val() * $('.quantity').val());
                 }
             }); 
-            
 
             var total_price_applied = new Array();
 
@@ -344,27 +343,7 @@
                     $('.no_item').show();
                 }
             });
-
-            $('#ApplicationForm').on('submit', function(event){
-                event.preventDefault();
-                $("#new_application").modal("hide");
-                $('#new_application').on('hidden.bs.modal', function () {
-                    $('#new_application form')[0].reset();
-                });
-                $(".table_items").find("tr:not('.no_item, .no_item_head')").remove();
-                $('.no_item').show();
-                $.ajax({
-                    url:'{{Route("new_application_store" )}}',
-                    type:'post',
-                    data:$(this).serialize(),
-                    dataType:'json',
-                    success:function(data) {
-                        window.location.href = "/new_application";
-                        
-                    }
-                });
-                // return false;
-            });
+            
             $.ajax({
                 url: "{{Route('budget_types')}}",
                 dataType: "json",
@@ -390,9 +369,7 @@
                     $('.usage_types').append(toAppend);
                 }
             });
-                
-
-            
+        
         });
     </script>
 @endsection

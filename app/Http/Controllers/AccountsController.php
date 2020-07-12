@@ -48,30 +48,29 @@ class AccountsController extends Controller
             'bursary_status_id'=>$bursary_status_id,
         ]);
         $data['applications']->save();
+
         /* APPLICATION DATA */
 
         /* APPLICATION ITEM DATA */
 
         $name_array = $request->name;
-        if(isset($request->name)){
-            for($count = 0; $count < count($name_array); $count++)
-            {
-                if (isset($request->name[$count])) {
-                    ApplicationItems::create([
-                        'name'=>$request->name[$count],
-                        'item_type_id'=>$request->item_type[$count],
-                        'item_type_justification'=>$request->item_type_justification[$count],
-                        'price_per_unit'=>$request->price_per_unit[$count],
-                        'quantity'=>$request->quantity[$count],
-                        'uom'=>$request->uom[$count],
-                        'total_items_price'=>$request->total_items_price[$count],
-                        'application_id'=>$data['applications']->id,
-                    ]);
-                }
-            }
+
+        foreach($name_array as $key => $value){
+            ApplicationItems::create([
+                'name'=> $value,
+                'item_type_id'=>$request->item_type[$key],
+                'item_type_justification'=>$request->item_type_justification[$key],
+                'price_per_unit'=>$request->price_per_unit[$key],
+                'quantity'=>$request->quantity[$key],
+                'uom'=>$request->uom[$key],
+                'total_items_price'=>$request->total_items_price[$key],
+                'application_id'=>$data['applications']->id,
+            ]);
         }
-        /* APPLICATION ITEM DATA */
+
         return redirect()->back();
+        
+        /* APPLICATION ITEM DATA */
     }
     
     // public function deleteProduct($id){
