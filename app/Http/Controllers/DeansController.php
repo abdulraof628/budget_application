@@ -31,10 +31,23 @@ class DeansController extends Controller
     }
     
     public function applicationView(Request $request){
+
         $id = $request->appid;
         
         $data['application'] = Applications::where('id', $id)->first();
         $data['items'] = ApplicationItems::where('application_id', $id)->get();
         return json_encode($data);
+    }
+    
+    public function applicationApprove(Request $request){
+
+        $id = $request->appid;
+
+        $data = Applications::where('id', $id)->first();
+        $data->dean_status_id = 1;
+        $data->save();
+
+        return view('deans.dashboard');
+        
     }
 }

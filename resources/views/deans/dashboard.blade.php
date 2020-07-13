@@ -117,7 +117,6 @@
                                             <th class="border-0">Justification</th>
                                             <th class="border-0">Budget Type</th>
                                             <th class="border-0">Usage Type</th>
-                                            <th class="border-0">Status</th>
                                             <th class="border-0">Action</th>
                                         </tr>
                                     </thead>
@@ -130,8 +129,10 @@
                                                 <td>{{$application->justification}}</td>
                                                 <td>{{$application->budgetTypes->type_name ?? 'empty'}}</td>
                                                 <td>{{$application->usageTypes->type_name ?? 'empty'}}</td>
-                                                <td>{{$application->status->status_name ?? 'empty'}}</td>
-                                                <td><a class="application_view" data-id="{{$application->id}}" title="View details"><i class="fa fa-eye fa-2x mr-3"></i></a></td>
+                                                <td>
+                                                    <a class="application_view" data-id="{{$application->id}}" title="View details"><i class="fa fa-eye fa-2x mr-3"></i></a>
+                                                    <a class="application_approve" data-method="{{$application->id}}" title="Approve"><i class="fa fa-check fa-2x mr-3"></i></a>
+                                                </td>
                                             </tr>
                                             @endforeach
                                         @else
@@ -254,85 +255,106 @@
     <script src="{{asset('vendor/charts/c3charts/C3chartjs.js')}}"></script>
 <script>
 
-$(document).ready(function(){
+    var CSRF_TOKEN = $('meta[name="csrf-token"]').attr("content");
     
-    $('.application_view').on('click',function(){
-   
-        var id=$(this).data('id');
-   
-        $.ajax({
-        url: '{{Route("application_view")}}',
-        type: 'get',
-        data: {"appid": id},
-        dataType: 'JSON',
-        success: function(response){ 
-            
-            $('.title').val(response.application.title);
-            $('.justification').val(response.application.justification);
-            $('.budget_types').val(response.application.budget_type_id);
-            $('.usage_types').val(response.application.usage_type_id);
-            $('.total_items_prices').val(response.application.total_price_applied);
-            $('.items').empty();
+    $(document).ready(function(){
+        
+        $('.application_view').on('click',function(){
+    
+            var id=$(this).data('id');
+    
+            $.ajax({
+                url: '{{Route("application_view")}}',
+                type: 'get',
+                data: {"appid": id},
+                dataType: 'JSON',
+                success: function(response){ 
+                    
+                    $('.title').val(response.application.title);
+                    $('.justification').val(response.application.justification);
+                    $('.budget_types').val(response.application.budget_type_id);
+                    $('.usage_types').val(response.application.usage_type_id);
+                    $('.total_items_prices').val(response.application.total_price_applied);
+                    $('.items').empty();
 
-            $.each(response.items,function(){
-                $('.items').append('<tr>'
-                    +'<td class="counter"></td>'
-                    +'<td>'+this.name+'</td>'
-                    +'<td>'+this.item_type+'</td>'
-                    +'<td>'+this.item_type_justification+'</td>'
-                    +'<td>'+this.price_per_unit+'</td>'
-                    +'<td>'+this.quantity+'</td>'
-                    +'<td>'+this.uom+'</td>'
-                    +'<td>'+this.total_items_price+'</td>'
-                +'</tr>');
+                    $.each(response.items,function(){
+                        $('.items').append('<tr>'
+                            +'<td class="counter"></td>'
+                            +'<td>'+this.name+'</td>'
+                            +'<td>'+this.item_type+'</td>'
+                            +'<td>'+this.item_type_justification+'</td>'
+                            +'<td>'+this.price_per_unit+'</td>'
+                            +'<td>'+this.quantity+'</td>'
+                            +'<td>'+this.uom+'</td>'
+                            +'<td>'+this.total_items_price+'</td>'
+                        +'</tr>');
+                    });
+                    // Display Modal
+                    $('#view_application').modal('show'); 
+                }
             });
-            // Display Modal
-            $('#view_application').modal('show'); 
+        });
+
+        $('.application_approve').on('click',function(){
+        
+            var id=$(this).data('method');
+            var url = "{{Route('dean_dashboard')}}";  
+            $.ajax({
+                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                url: '{{Route("application_approve", 'id')}}',
+                type: 'post',
+                data: {"_token": "{{ csrf_token() }}","appid": id},
+                dataType: 'JSON',
+                success: function(response){ 
+                    window.location.replace("http://localhost/me.php");
+                },
+                error: function(response) {
+                    location.reload();
+                }
+            });
+        });
+        
+        $.ajax({
+            url: "{{Route('budget_types')}}",
+            dataType: "json",
+            success: function(data){
+                var toAppend = '';
+                $.each(data,function(i,o){
+                    
+                    toAppend += '<option value="'+o.id+'">'+o.type_name+'</option>';
+                });
+
+                $('.budget_types').append(toAppend);
+                
+                $(".budget_types").val(); 
+            }
+        });
+                
+        $.ajax({
+            url: "{{Route('usage_types')}}",
+            dataType: "json",
+            success: function(data){
+                var toAppend = '';
+                $.each(data,function(i,o){
+                toAppend += '<option value="'+o.id+'">'+o.type_name+'</option>';
+                });
+
+                $('.usage_types').append(toAppend);
+            }
+        });
+
+        $.ajax({
+            url: "{{Route('application_item_types')}}",
+            dataType: "json",
+            success: function(data){
+                var toAppend = '';
+                $.each(data,function(i,o){
+                toAppend += '<option value="'+o.item_type_name+'">'+o.item_type_name+'</option>';
+                });
+
+                $('.application_item_types').append(toAppend);
             }
         });
     });
-    
-    $.ajax({
-        url: "{{Route('budget_types')}}",
-        dataType: "json",
-        success: function(data){
-            var toAppend = '';
-            $.each(data,function(i,o){
-                
-                toAppend += '<option value="'+o.id+'">'+o.type_name+'</option>';
-            });
-
-            $('.budget_types').append(toAppend);
-            
-            $(".budget_types").val(); 
-        }
-    });
-            
-    $.ajax({
-        url: "{{Route('usage_types')}}",
-        dataType: "json",
-        success: function(data){
-            var toAppend = '';
-            $.each(data,function(i,o){
-            toAppend += '<option value="'+o.id+'">'+o.type_name+'</option>';
-            });
-
-            $('.usage_types').append(toAppend);
-        }
-    });
-
-    $.ajax({
-        url: "{{Route('application_item_types')}}",
-        dataType: "json",
-        success: function(data){
-            var toAppend = '';
-            $.each(data,function(i,o){
-            toAppend += '<option value="'+o.item_type_name+'">'+o.item_type_name+'</option>';
-            });
-
-            $('.application_item_types').append(toAppend);
-        }
-    });
-});
 </script>
 @endsection
