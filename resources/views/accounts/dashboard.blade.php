@@ -43,7 +43,7 @@
                         <div class="card-body">
                             <h5 class="text">Total Applications</h5>
                             <div class="metric-value d-inline-block">
-                                <h1 class="mb-1">110</h1>
+                                <h1 class="mb-1">{{count($total_application)??0}}</h1>
                             </div>
                         </div>
                     </div>
@@ -53,7 +53,7 @@
                         <div class="card-body">
                             <h5 class="text-success">Total Applications Approved</h5>
                             <div class="metric-value d-inline-block">
-                                <h1 class="mb-1">1</h1>
+                                <h1 class="mb-1">{{count($approved_applications)??0}}</h1>
                             </div>
                         </div>
                     </div>
@@ -63,7 +63,7 @@
                         <div class="card-body">
                             <h5 class="text-danger">Total Applications Rejected</h5>
                             <div class="metric-value d-inline-block">
-                                <h1 class="mb-1">2</h1>
+                                <h1 class="mb-1">{{count($rejected_applications)??0}}</h1>
                             </div>
                         </div>
                     </div>
@@ -73,7 +73,7 @@
                         <div class="card-body">
                             <h5 class="text-info">Total Applications In Progress</h5>
                             <div class="metric-value d-inline-block">
-                                <h1 class="mb-1">107</h1>
+                                <h1 class="mb-1">{{count($inprogress_applications)??0}}</h1>
                             </div>
                         </div>
                     </div>
@@ -106,24 +106,11 @@
                                     <tbody>
                                         <tr>
                                             <td>1</td>
-                                            <td>
-                                                <div class="m-r-10"><img src="assets/images/product-pic.jpg" alt="user" class="rounded" width="45"></div>
-                                            </td>
+                                            <td></td>
                                             <td>Product #1 </td>
                                             <td>id000001 </td>
                                             <td>20</td>
                                             <td><span class="badge-dot badge-danger mr-1"></span>Rejected </td>
-                                            <td>20</td>
-                                        </tr>
-                                        <tr>
-                                            <td>2</td>
-                                            <td>
-                                                <div class="m-r-10"><img src="assets/images/product-pic.jpg" alt="user" class="rounded" width="45"></div>
-                                            </td>
-                                            <td>Product #1 </td>
-                                            <td>id000001 </td>
-                                            <td>20</td>
-                                            <td><span class="badge-dot badge-success mr-1"></span>Approved </td>
                                             <td>20</td>
                                         </tr>
                                     </tbody>
@@ -166,5 +153,4 @@
     <script src="{{asset('vendor/charts/c3charts/c3.min.js')}}"></script>
     <script src="{{asset('vendor/charts/c3charts/d3-5.4.0.min.js')}}"></script>
     <script src="{{asset('vendor/charts/c3charts/C3chartjs.js')}}"></script>
-    <script src="{{asset('js/dashboard-ecommerce.js')}}"></script>
 @endsection

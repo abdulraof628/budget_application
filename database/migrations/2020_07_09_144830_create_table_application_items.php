@@ -16,7 +16,7 @@ class CreateTableApplicationItems extends Migration
         Schema::create('application_items', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name')->nullable();
-            $table->integer('item_type_id')->nullable();
+            $table->string('item_type')->nullable();
             $table->string('item_type_justification')->nullable();
             $table->decimal('price_per_unit', 8, 2)->nullable();
             $table->integer('quantity')->nullable();

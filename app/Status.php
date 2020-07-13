@@ -4,9 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class BudgetTypes extends Model
+class Status extends Model
 {
-    protected $table = 'budget_types';
+    protected $table = 'status';
 
     protected $guarded = ['id'];
     
