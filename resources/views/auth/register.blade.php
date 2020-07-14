@@ -52,7 +52,7 @@
                         <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
                     </div>
                     <div class="form-group">
-                        <select id="roles" name="roles" class="form-control @error('role') is-invalid @enderror">
+                        <select id="role" name="role" class="form-control @error('role') is-invalid @enderror">
                             <option value="">Please select role</option>
                             <option value="Account">Account</option>
                             <option value="Dean">Dean</option>
