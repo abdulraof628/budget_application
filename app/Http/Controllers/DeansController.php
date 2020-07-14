@@ -39,12 +39,27 @@ class DeansController extends Controller
         return json_encode($data);
     }
     
-    public function applicationApprove(Request $request){
+    public function applicationApproveDean(Request $request){
 
         $id = $request->appid;
 
         $data = Applications::where('id', $id)->first();
         $data->dean_status_id = 1;
+        $data->save();
+
+        return view('deans.dashboard');
+        
+    }
+    
+    public function applicationRejectDean(Request $request){
+
+        $id = $request->appid;
+        $remark = $request->remark;
+
+        $data = Applications::where('id', $id)->first();
+        $data->dean_status_id = 2;
+        $data->bursary_status_id = 2;
+        $data->dean_remark = $request->remark;
         $data->save();
 
         return view('deans.dashboard');

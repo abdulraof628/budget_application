@@ -54,7 +54,7 @@
         <!-- end pageheader  -->
         <!-- ============================================================== -->
         <div class="ecommerce-widget">
-
+<!-- 
             <div class="row">
                 <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
                     <div class="card">
@@ -96,7 +96,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
             <div class="row">
                 <!-- ============================================================== -->
             
@@ -117,7 +117,6 @@
                                             <th class="border-0">Justification</th>
                                             <th class="border-0">Budget Type</th>
                                             <th class="border-0">Usage Type</th>
-                                            <th class="border-0">Status</th>
                                             <th class="border-0">Action</th>
                                         </tr>
                                     </thead>
@@ -130,8 +129,11 @@
                                                 <td>{{$application->justification}}</td>
                                                 <td>{{$application->budgetTypes->type_name ?? 'empty'}}</td>
                                                 <td>{{$application->usageTypes->type_name ?? 'empty'}}</td>
-                                                <td>{{$application->status->status_name ?? 'empty'}}</td>
-                                                <td><a class="application_view" data-id="{{$application->id}}" title="View details"><i class="fa fa-eye fa-2x mr-3"></i></a></td>
+                                                <td>
+                                                    <a href="javascript:;" class="application_view" data-id="{{$application->id}}" title="View details"><i class="fa fa-eye fa-2x mr-3"></i></a>
+                                                    <a href="javascript:;" class="application_approve" data-method="{{$application->id}}" title="Approve"><i class="fa fa-check fa-2x mr-3"></i></a>
+                                                    <a href="#remark" class="application_reject" data-toggle="modal" title="Reject" data-id="{{$application->id}}"><i class="fa fa-close fa-2x mr-3"></i></a>
+                                                </td>
                                             </tr>
                                             @endforeach
                                         @else
@@ -152,78 +154,103 @@
     </div>
 </div>
 <div class="modal fade" id="view_application" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg" role="document">
-                <div class="modal-content modal-lg">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">New Budget Application</h5>
-                        <a href="#" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></a>
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content modal-lg">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">New Budget Application</h5>
+                <a href="#" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></a>
+            </div>
+            <div class="modal-body">
+                <form action="" method="get" novalidate>
+                @csrf
+                <div class="row">
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 border-bottom">
+                            
+                            <div class="form-group">
+                                <label class="col-form-label">Application Title</label>
+                                <input type="text" name="title" value="" class="form-control title" disabled>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-form-label">Application Justification</label>
+                                <textarea name="justification" class="form-control justification"disabled></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-form-label">Budget Type</label>
+                                <select name="budget_type_id" class="form-control budget_types"disabled>
+                                    <option value="">Please select budget type</option>
+                                </select>
+                            </div>
+                            <div class="form-group pb-3">
+                                <label class="col-form-label">Usage Type</label>
+                                <select name="usage_type_id" class="form-control usage_types"disabled>
+                                    <option value="">Please select usage type</option>
+                                </select>
+                            </div>
+                        </div>  
                     </div>
-                    <div class="modal-body">
-                        <form action="" method="get" novalidate>
-                        @csrf
-                        <div class="row">
-                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 border-bottom">
-                                    
-                                    <div class="form-group">
-                                        <label class="col-form-label">Application Title</label>
-                                        <input type="text" name="title" value="" class="form-control title" disabled>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-form-label">Application Justification</label>
-                                        <textarea name="justification" class="form-control justification"disabled></textarea>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-form-label">Budget Type</label>
-                                        <select name="budget_type_id" class="form-control budget_types"disabled>
-                                            <option value="">Please select budget type</option>
-                                        </select>
-                                    </div>
-                                    <div class="form-group pb-3">
-                                        <label class="col-form-label">Usage Type</label>
-                                        <select name="usage_type_id" class="form-control usage_types"disabled>
-                                            <option value="">Please select usage type</option>
-                                        </select>
-                                    </div>
-                                </div>  
-                            </div>
-                        <div class="row pt-4">
-                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                                <div class="table-responsive ">
-                                    <table class="table table_items">
-                                        <thead>
-                                            <tr class="no_item_head">
-                                                <th scope="col">No</th>
-                                                <th scope="col">Item Name</th>
-                                                <th scope="col">Type</th>
-                                                <th scope="col">Type Justification</th>
-                                                <th scope="col">Price Per Unit</th>
-                                                <th scope="col">Quantity</th>
-                                                <th scope="col">UOM (Unit of measurement)</th>
-                                                <th scope="col">Total</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody class="items">
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row pt-3 border-top">
-                            <div class="col-md-2 offset-8 pull-right text-right align-self-end">
-                                <label>Total Items Prices</label>
-                            </div>
-                            <div class="col-md-2 pull-right text-right align-self-right">
-                                <input type="text" class="form-control total_items_prices" disabled>
-                            </div>
+                <div class="row pt-4">
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                        <div class="table-responsive ">
+                            <table class="table table_items">
+                                <thead>
+                                    <tr class="no_item_head">
+                                        <th scope="col">No</th>
+                                        <th scope="col">Item Name</th>
+                                        <th scope="col">Type</th>
+                                        <th scope="col">Type Justification</th>
+                                        <th scope="col">Price Per Unit</th>
+                                        <th scope="col">Quantity</th>
+                                        <th scope="col">UOM (Unit of measurement)</th>
+                                        <th scope="col">Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="items">
+                                </tbody>
+                            </table>
                         </div>
                     </div>
-                    <div class="modal-footer">
-                        <a href="#" class="btn btn-light" data-dismiss="modal">Close</a>
+                </div>
+                <div class="row pt-3 border-top">
+                    <div class="col-md-2 offset-8 pull-right text-right align-self-end">
+                        <label>Total Items Prices</label>
                     </div>
-                    </form>
+                    <div class="col-md-2 pull-right text-right align-self-right">
+                        <input type="text" class="form-control total_items_prices" disabled>
+                    </div>
                 </div>
             </div>
+            <div class="modal-footer">
+                <a href="#" class="btn btn-light" data-dismiss="modal">Close</a>
+            </div>
+            </form>
         </div>
+    </div>
+</div>
+<div class="modal fade" id="remark" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Remarks</h5>
+                <a href="#" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></a>
+            </div>
+            <div class="modal-body">
+                <form action="" method="get" novalidate>
+                @csrf
+                <div class="row">
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                        <div class="form-group">
+                            <textarea name="remark" class="form-control remark_text"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-success remark">Submit</button>
+            </div>
+                </form>
+        </div>
+    </div>
+</div>
 @endsection
 
 @section('footer')
@@ -254,85 +281,129 @@
     <script src="{{asset('vendor/charts/c3charts/C3chartjs.js')}}"></script>
 <script>
 
-$(document).ready(function(){
+    var CSRF_TOKEN = $('meta[name="csrf-token"]').attr("content");
     
-    $('.application_view').on('click',function(){
-   
-        var id=$(this).data('id');
-   
-        $.ajax({
-        url: '{{Route("application_view")}}',
-        type: 'get',
-        data: {"appid": id},
-        dataType: 'JSON',
-        success: function(response){ 
-            
-            $('.title').val(response.application.title);
-            $('.justification').val(response.application.justification);
-            $('.budget_types').val(response.application.budget_type_id);
-            $('.usage_types').val(response.application.usage_type_id);
-            $('.total_items_prices').val(response.application.total_price_applied);
-            $('.items').empty();
+    $(document).ready(function(){
+        
+        $('.application_view').on('click',function(){
+    
+            var id=$(this).data('id');
+    
+            $.ajax({
+                url: '{{Route("application_view")}}',
+                type: 'get',
+                data: {"appid": id},
+                dataType: 'JSON',
+                success: function(response){ 
+                    
+                    $('.title').val(response.application.title);
+                    $('.justification').val(response.application.justification);
+                    $('.budget_types').val(response.application.budget_type_id);
+                    $('.usage_types').val(response.application.usage_type_id);
+                    $('.total_items_prices').val(response.application.total_price_applied);
+                    $('.items').empty();
 
-            $.each(response.items,function(){
-                $('.items').append('<tr>'
-                    +'<td class="counter"></td>'
-                    +'<td>'+this.name+'</td>'
-                    +'<td>'+this.item_type+'</td>'
-                    +'<td>'+this.item_type_justification+'</td>'
-                    +'<td>'+this.price_per_unit+'</td>'
-                    +'<td>'+this.quantity+'</td>'
-                    +'<td>'+this.uom+'</td>'
-                    +'<td>'+this.total_items_price+'</td>'
-                +'</tr>');
+                    $.each(response.items,function(){
+                        $('.items').append('<tr>'
+                            +'<td class="counter"></td>'
+                            +'<td>'+this.name+'</td>'
+                            +'<td>'+this.item_type+'</td>'
+                            +'<td>'+this.item_type_justification+'</td>'
+                            +'<td>'+this.price_per_unit+'</td>'
+                            +'<td>'+this.quantity+'</td>'
+                            +'<td>'+this.uom+'</td>'
+                            +'<td>'+this.total_items_price+'</td>'
+                        +'</tr>');
+                    });
+                    // Display Modal
+                    $('#view_application').modal('show'); 
+                }
             });
-            // Display Modal
-            $('#view_application').modal('show'); 
+        });
+
+        $('.application_approve').on('click',function(){
+        
+            var id=$(this).data('method');
+            console.log(id);
+            $.ajax({
+                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                url: '{{Route("application_approve_dean", 'id')}}',
+                type: 'post',
+                data: {"_token": "{{ csrf_token() }}","appid": id},
+                dataType: 'JSON',
+                success: function(response){ 
+                },
+                error: function(response) {
+                    location.reload();
+                }
+            });
+        });
+
+        $('.application_reject').on('click',function(){
+
+            var id=$(this).data('id');
+
+            $('.remark').on('click',function(){
+                
+                var remark=$('.remark_text').val();
+                $.ajax({
+                    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                    url: '{{Route("application_reject_bursary", 'id')}}',
+                    type: 'post',
+                    data: {"_token": "{{ csrf_token() }}",
+                        "appid": id,
+                        "remark": remark},
+                    dataType: 'JSON',
+                    success: function(response){ 
+                    },
+                    error: function(response) {
+                        location.reload();
+                    }
+                });
+            });
+        });
+        
+        $.ajax({
+            url: "{{Route('budget_types')}}",
+            dataType: "json",
+            success: function(data){
+                var toAppend = '';
+                $.each(data,function(i,o){
+                    
+                    toAppend += '<option value="'+o.id+'">'+o.type_name+'</option>';
+                });
+
+                $('.budget_types').append(toAppend);
+                
+                $(".budget_types").val(); 
+            }
+        });
+                
+        $.ajax({
+            url: "{{Route('usage_types')}}",
+            dataType: "json",
+            success: function(data){
+                var toAppend = '';
+                $.each(data,function(i,o){
+                toAppend += '<option value="'+o.id+'">'+o.type_name+'</option>';
+                });
+
+                $('.usage_types').append(toAppend);
+            }
+        });
+
+        $.ajax({
+            url: "{{Route('application_item_types')}}",
+            dataType: "json",
+            success: function(data){
+                var toAppend = '';
+                $.each(data,function(i,o){
+                toAppend += '<option value="'+o.item_type_name+'">'+o.item_type_name+'</option>';
+                });
+
+                $('.application_item_types').append(toAppend);
             }
         });
     });
-    
-    $.ajax({
-        url: "{{Route('budget_types')}}",
-        dataType: "json",
-        success: function(data){
-            var toAppend = '';
-            $.each(data,function(i,o){
-                
-                toAppend += '<option value="'+o.id+'">'+o.type_name+'</option>';
-            });
-
-            $('.budget_types').append(toAppend);
-            
-            $(".budget_types").val(); 
-        }
-    });
-            
-    $.ajax({
-        url: "{{Route('usage_types')}}",
-        dataType: "json",
-        success: function(data){
-            var toAppend = '';
-            $.each(data,function(i,o){
-            toAppend += '<option value="'+o.id+'">'+o.type_name+'</option>';
-            });
-
-            $('.usage_types').append(toAppend);
-        }
-    });
-
-    $.ajax({
-        url: "{{Route('application_item_types')}}",
-        dataType: "json",
-        success: function(data){
-            var toAppend = '';
-            $.each(data,function(i,o){
-            toAppend += '<option value="'+o.item_type_name+'">'+o.item_type_name+'</option>';
-            });
-
-            $('.application_item_types').append(toAppend);
-        }
-    });
-});
 </script>
 @endsection

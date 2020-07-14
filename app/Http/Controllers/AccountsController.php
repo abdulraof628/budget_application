@@ -14,7 +14,7 @@ class AccountsController extends Controller
     public function index(){
 
         $data['total_application'] = Applications::get();
-        $data['approved_applications'] = Applications::where('dean_status_id',1)->orWhere('bursary_status_id',1)->get();
+        $data['approved_applications'] = Applications::where('dean_status_id',1)->where('bursary_status_id',1)->get();
         $data['rejected_applications'] = Applications::where('dean_status_id',2)->orWhere('bursary_status_id',2)->get();
         $data['inprogress_applications'] = Applications::where('dean_status_id',3)->orWhere('bursary_status_id',3)->get();
         

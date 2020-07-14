@@ -95,8 +95,7 @@
                                                     <td>{{$application->usageTypes->type_name ?? 'empty'}}</td>
                                                     <td><span class="badge-dot badge-info mr-1"></span>{{$application->status->status_name ?? 'empty'}}</td>
                                                     <td><a href="#edit_application" data-toggle="modal" title="Add or delete items"><i class="fa fa-refresh fa-2x mr-3"></i></a>
-                                                        <a class="application_view" data-id="{{$application->id}}" title="View details"><i class="fa fa-eye fa-2x mr-3"></i></a>
-                                                        <a href="" title="View summary"><i class="fa fa-list fa-2x mr-3"></i></a>
+                                                        <a href="javascript:;" class="application_view" data-id="{{$application->id}}" title="View details"><i class="fa fa-eye fa-2x mr-3"></i></a>
                                                         <a href="{{Route('application_delete',$application->id)}}" title="Delete application"><i class="fa fa-trash fa-2x"></i></a></td>
                                                 </tr>
                                             @endforeach
@@ -457,6 +456,32 @@
                 </div>
             </div>
         </div>
+        <div class="modal fade" id="status_application" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+                <div class="modal-content modal-lg">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Status</h5>
+                        <a href="#" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></a>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                                <div class="form-group">
+                                    <label class="col-form-label dean_status"></label>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-form-label bursary_status"></label>
+                                </div>
+                            </div>  
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="#" class="btn btn-light" data-dismiss="modal">Close</a>
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 @endsection
@@ -616,7 +641,7 @@
                 else{
                     $('.application_item_justification').empty();
                 }
-            })
+            });
             
             $('.application_view').on('click',function(){
    

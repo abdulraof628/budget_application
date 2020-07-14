@@ -13,7 +13,7 @@ class BursaryController extends Controller
 {
     public function index(){
 
-        $data['applications'] = Applications::where('bursary_status_id',3)->get();
+        $data['applications'] = Applications::where('dean_status_id',1)->where('bursary_status_id',3)->get();
         
         return view('bursary.dashboard')->with($data);
     }
@@ -31,10 +31,34 @@ class BursaryController extends Controller
     }
     
     public function applicationView(Request $request){
+
         $id = $request->appid;
         
         $data['application'] = Applications::where('id', $id)->first();
         $data['items'] = ApplicationItems::where('application_id', $id)->get();
         return json_encode($data);
+    }
+    
+    public function applicationApproveBursary(Request $request){
+
+        $id = $request->appid;
+
+        $data = Applications::where('id', $id)->first();
+        dd($data);
+        $data->bursary_status_id = 1;
+        $data->save();
+        
+    }
+    
+    public function applicationRejectBursary(Request $request){
+
+        $id = $request->appid;
+        $remark = $request->remark;
+
+        $data = Applications::where('id', $id)->first();
+        $data->bursary_status_id = 2;
+        $data->dean_remark = $request->remark;
+        $data->save();
+        
     }
 }

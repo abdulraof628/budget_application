@@ -14,6 +14,19 @@
     <link rel="stylesheet" href="{{asset('vendor/charts/c3charts/c3.css')}}">
     <link rel="stylesheet" href="{{asset('vendor/fonts/flag-icon-css/flag-icon.min.css')}}">
     <title>Dashboard</title>
+    <style>
+        table {
+            counter-reset: rowNumber;
+        }
+
+        .counter::before {
+            display: table-cell;
+            counter-increment: rowNumber;
+            content: counter(rowNumber) "";
+            padding-right: 0.3em;
+            text-align: right;
+        }
+    </style>
 @endsection
 
 @section('top_navbar')
@@ -100,19 +113,33 @@
                                             <th class="border-0">Budget Type</th>
                                             <th class="border-0">Usage Type</th>
                                             <th class="border-0">Status</th>
-                                            <th class="border-0">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
+                                    @if(count($total_application) > 0)
+                                        @foreach($total_application as $key=>$application)
+                                            <tr>
+                                                <td class="counter"></td>
+                                                <td>{{$application->title}}</td>
+                                                <td>{{$application->justification}}</td>
+                                                <td>{{$application->budgetTypes->type_name ?? 'empty'}}</td>
+                                                <td>{{$application->usageTypes->type_name ?? 'empty'}}</td>
+                                                @if($application->dean_status_id == '1' and $application->bursary_status_id == '1')
+                                                    <td><span class="badge-dot badge-success mr-1"></span>{{$application->status->status_name ?? 'empty'}}</td>
+                                                @elseif($application->dean_status_id == '2' or $application->bursary_status_id == '2')
+                                                    <td><span class="badge-dot badge-danger mr-1"></span>{{$application->status->status_name ?? 'empty'}}</td>
+                                                @elseif($application->dean_status_id == '3' and $application->bursary_status_id == '3')
+                                                    <td><span class="badge-dot badge-info mr-1"></span>{{$application->status->status_name ?? 'empty'}} (Dean)</td>
+                                                @elseif($application->dean_status_id == '1' and $application->bursary_status_id == '3')
+                                                    <td><span class="badge-dot badge-info mr-1"></span>In-Progress (Bursary Officer)</td>
+                                                @endif
+                                            </tr>
+                                        @endforeach
+                                    @else
                                         <tr>
-                                            <td>1</td>
-                                            <td></td>
-                                            <td>Product #1 </td>
-                                            <td>id000001 </td>
-                                            <td>20</td>
-                                            <td><span class="badge-dot badge-danger mr-1"></span>Rejected </td>
-                                            <td>20</td>
+                                            <td colspan="9" class="text-center p-5">No Application Made</td>
                                         </tr>
+                                    @endif
                                     </tbody>
                                 </table>
                             </div>

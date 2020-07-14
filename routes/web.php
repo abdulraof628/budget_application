@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('login');
 });
 
 Auth::routes();
@@ -30,11 +30,14 @@ Route::get('/new_application/delete/{id}', 'AccountsController@applicationDelete
 
 /* Deans Routes */
 Route::get('/dean_dashboard', 'DeansController@index')->name('dean_dashboard');
-Route::post('/approve_application/{id}', 'DeansController@applicationApprove')->name('application_approve');
+Route::post('/approve_application_dean/{id}', 'DeansController@applicationApproveDean')->name('application_approve_dean');
+Route::post('/reject_application_dean/{id}', 'DeansController@applicationRejectDean')->name('application_reject_dean');
 /* Deans Routes */
 
 /* Bursaries Routes */
 Route::get('/bursary_dashboard', 'BursaryController@index')->name('bursary_dashboard');
+Route::post('/approve_application_bursary/{id}', 'BursaryController@applicationApproveBursary')->name('application_approve_bursary');
+Route::post('/reject_application_bursary/{id}', 'BursaryController@applicationRejectBursary')->name('application_reject_bursary');
 /* Bursaries Routes */
 
 /* Select Option Routes */
