@@ -24,7 +24,7 @@ Route::get('/account_dashboard', 'AccountsController@index')->name('account_dash
 Route::get('/new_application', 'AccountsController@newApplication')->name('new_application');
 Route::post('/new_application/submit', 'AccountsController@newApplicationStore')->name('new_application_store');
 Route::get('/view_application/view', 'AccountsController@applicationView')->name('application_view');
-Route::get('/new_application/edit/{id}', 'AccountsController@applicationEdit')->name('application_edit');
+Route::post('/new_application/edit/{id}', 'AccountsController@applicationEdit')->name('application_edit');
 Route::get('/new_application/delete/{id}', 'AccountsController@applicationDelete')->name('application_delete');
 /* Accounts Routes */
 

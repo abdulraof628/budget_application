@@ -18,8 +18,14 @@ class RedirectIfAuthenticated
      */
     public function handle($request, Closure $next, $guard = null)
     {
-        if (Auth::guard($guard)->check() && $guard == "abdul hadi") {
+        if (Auth::guard($guard)->check() && Auth::user()->role == '1') {
+            return redirect('/account_dashboard');
+        }
+        if (Auth::guard($guard)->check() && Auth::user()->role == '2') {
             return redirect('/dean_dashboard');
+        }
+        if (Auth::guard($guard)->check() && Auth::user()->role == '3') {
+            return redirect('/bursary_dashboard');
         }
 
         return $next($request);

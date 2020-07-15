@@ -94,9 +94,11 @@
                                                     <td>{{$application->budgetTypes->type_name ?? 'empty'}}</td>
                                                     <td>{{$application->usageTypes->type_name ?? 'empty'}}</td>
                                                     <td><span class="badge-dot badge-info mr-1"></span>{{$application->status->status_name ?? 'empty'}}</td>
-                                                    <td><a href="#edit_application" data-toggle="modal" title="Add or delete items"><i class="fa fa-refresh fa-2x mr-3"></i></a>
+                                                    <td>
+                                                        <a href="#edit_application" data-toggle="modal" data-id="{{$application->id}}" data-title="{{$application->title}}" data-justification="{{$application->justification}}" data-budget_type_id="{{$application->budgetTypes->id ?? 'empty'}}" data-usage_type_id="{{$application->usageTypes->id ?? 'empty'}}" data-usage_type_id="{{$application->usageTypes->id ?? 'empty'}}" title="Add or delete items"><i class="fa fa-refresh fa-2x mr-3"></i></a>
                                                         <a href="javascript:;" class="application_view" data-id="{{$application->id}}" title="View details"><i class="fa fa-eye fa-2x mr-3"></i></a>
-                                                        <a href="{{Route('application_delete',$application->id)}}" title="Delete application"><i class="fa fa-trash fa-2x"></i></a></td>
+                                                        <a href="{{Route('application_delete',$application->id)}}" title="Delete application"><i class="fa fa-trash fa-2x"></i></a>
+                                                    </td>
                                                 </tr>
                                             @endforeach
                                         @else
@@ -217,7 +219,7 @@
                                                 <th scope="col">Type Justification</th>
                                                 <th scope="col">Price Per Unit</th>
                                                 <th scope="col">Quantity</th>
-                                                <th scope="col">UOM (Unit of measurement)</th>
+                                                <th scope="col">UOM</th>
                                                 <th scope="col">Total</th>
                                                 <th scope="col">Action</th>
                                             </tr>
@@ -256,18 +258,18 @@
                         <a href="#" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></a>
                     </div>
                     <div class="modal-body">
-                    <form action="" method="get" novalidate>
+                    <form action="{{Route('application_edit','update')}}" method="post" novalidate>
                     @csrf
                         <div class="row">
                             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 border-bottom">
-                                    @foreach($applications as $key=>$application)
+                                    <input type="hidden" name="id" value="" class="form-control id">
                                     <div class="form-group">
                                         <label class="col-form-label">Application Title</label>
-                                        <input type="text" name="title" value="{{$application->title}}" class="form-control">
+                                        <input type="text" name="title" value="" class="form-control title">
                                     </div>
                                     <div class="form-group">
                                         <label class="col-form-label">Application Justification</label>
-                                        <textarea name="justification" class="form-control">{{$application->justification}}</textarea>
+                                        <textarea name="justification" class="form-control justification"></textarea>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-form-label">Budget Type</label>
@@ -281,7 +283,6 @@
                                             <option value="">Please select usage type</option>
                                         </select>
                                     </div>
-                                    @endforeach
                                 </div>  
                             </div>
                         <div class="row pt-3">
@@ -377,7 +378,7 @@
                     </div>
                     <div class="modal-footer">
                         <a href="#" class="btn btn-light" data-dismiss="modal">Cancel</a>
-                        <button type="submit" class="btn btn-success">Submit</button>
+                        <button type="submit" class="btn btn-success application_update">Submit</button>
                     </div>
                     </form>
                 </div>
@@ -680,6 +681,117 @@
                     }
                 });
             });
+
+            $('#edit_application').on('show.bs.modal', function(event){
+                var button = $(event.relatedTarget)
+                var id = button.data('id');
+                var title = button.data('title');
+                var justification = button.data('justification');
+                var budget_type_id = button.data('budget_type_id');
+                var usage_type_id = button.data('usage_type_id');
+
+                var modal = $(this)
+
+                modal.find('.modal-body .id').val(id);
+                modal.find('.modal-body .title').val(title);
+                modal.find('.modal-body .justification').val(justification);
+                modal.find('.modal-body .budget_types option[value="'+budget_type_id+'"]').attr("selected","selected");
+                modal.find('.modal-body .usage_types option[value="'+usage_type_id+'"]').attr("selected","selected");
+                modal.find('.modal-body .total_items_prices').val(total_price_applied);
+
+                $.ajax({
+                    url: '{{Route("application_view")}}',
+                    type: 'get',
+                    data: {"appid": id},
+                    dataType: 'JSON',
+                    success: function(response){ 
+                        
+                        $('.items').empty();
+                        
+                        $.ajax({
+                            url: "{{Route('application_item_types')}}",
+                            dataType: "json",
+                            success: function(data){
+                                var toAppend = '';
+                                $.each(data,function(i,o){
+                                toAppend += '<option value="'+o.item_type_name+'">'+o.item_type_name+'</option>';
+                                });
+                                $('.application_item_types').empty();
+                                $('.application_item_types').append(toAppend);
+                            }
+                        });
+                        
+            
+                        $.each(response.items,function(){
+                            $('.items').append('<tr>'
+                                +'<td class="counter"></td>'
+                                +'<td><input class="form-control" type="text" value="'+this.name+'"></td>'
+                                +'<input class="form-control" type="text" value="'+this.item_type+'"></td>'
+                                +'<td><select name="application_item_type_id" class="form-control application_item_types"><option value="">Please select item type</option></select></td>'
+                                +'<td><input class="form-control" type="text" value="'+this.item_type_justification+'"></td>'
+                                +'<td><input class="form-control" type="number" value="'+this.price_per_unit+'"></td>'
+                                +'<td><input class="form-control" type="number" value="'+this.quantity+'"></td>'
+                                +'<td><input class="form-control" type="text" value="'+this.uom+'"</td>'
+                                +'<td><input class="form-control" type="number"  value="'+this.total_items_price+'" disabled></td>'
+                            +'</tr>');
+                        });
+                        // // Display Modal
+                        // $('#view_application').modal('show'); 
+                    }
+                });
+            });
+            
+            // $('.application_edit').on('click',function(){
+   
+            //     var id=$(this).data('id');
+                
+            //     $.ajax({
+            //         url: '{{Route("application_view")}}',
+            //         type: 'get',
+            //         data: {"appid": id},
+            //         dataType: 'JSON',
+            //         success: function(response){ 
+                        
+            //             $('.title').val(response.application.title);
+            //             $('.justification').val(response.application.justification);
+            //             $('.budget_types').val(response.application.budget_type_id);
+            //             $('.usage_types').val(response.application.usage_type_id);
+            //             $('.total_items_prices').val(response.application.total_price_applied);
+                        
+            //             // $.each(response.items,function(){
+            //             //     $('.items').append('<tr>'
+            //             //         +'<td class="counter"></td>'
+            //             //         +'<td>'+this.name+'</td>'
+            //             //         +'<td>'+this.item_type+'</td>'
+            //             //         +'<td>'+this.item_type_justification+'</td>'
+            //             //         +'<td>'+this.price_per_unit+'</td>'
+            //             //         +'<td>'+this.quantity+'</td>'
+            //             //         +'<td>'+this.uom+'</td>'
+            //             //         +'<td>'+this.total_items_price+'</td>'
+            //             //     +'</tr>');
+            //             // });
+            //             // Display Modal
+            //             $('#edit_application').modal('show'); 
+                            
+            //         $('.application_update').on('click',function(){
+            //             // AJAX request
+            //             $.ajax({
+            //                 url: '{{Route("application_edit", 'id')}}',
+            //                 type: 'post',
+            //                 data: {"appid": id,
+            //                     "title": $('.title').val(),
+            //                     "justification": $('.justification').val(),
+            //                     "budget_type_id": $('.budget_type_id').val(),
+            //                     "usage_type_id": $('.usage_type_id').val()
+            //                     },
+            //                 dataType: 'JSON',
+            //                 success: function(response){ 
+            //                 }
+            //             });
+            //         });
+            //     }
+            // });
+        // });
         
         });
     </script>

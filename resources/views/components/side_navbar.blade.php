@@ -6,18 +6,24 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav flex-column">
+            @if(Auth::user()->role == '1')
                 <li class="nav-item ">
                     <a class="nav-link {{ (request()->is('account_dashboard')) ? 'active' : '' }}" href="{{Route('account_dashboard')}}"><i class="fa fa-fw fa-dashboard"></i>Account Dashboard</a>
                 </li>
                 <li class="nav-item ">
                     <a class="nav-link {{ (request()->is('new_application')) ? 'active' : '' }}" href="{{Route('new_application')}}"> <i class="fa fa-fw fa-pencil-square-o"></i>Applications</a>
                 </li>
+            @endif
+            @if(Auth::user()->role == '2')
                 <li class="nav-item ">
                     <a class="nav-link {{ (request()->is('dean_dashboard')) ? 'active' : '' }}" href="{{Route('dean_dashboard')}}"> <i class="fa fa-fw fa-dashboard"></i>Dean Dashboard</a>
                 </li>
+            @endif
+            @if(Auth::user()->role == '3')
                 <li class="nav-item ">
                     <a class="nav-link {{ (request()->is('bursary_dashboard')) ? 'active' : '' }}" href="{{Route('bursary_dashboard')}}"> <i class="fa fa-fw fa-dashboard"></i>Bursary Dashboard</a>
                 </li>
+            @endif
                 <!-- <li class="nav-item">
                     <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-2" aria-controls="submenu-2"><i class="fa fa-fw fa-rocket"></i>UI Elements</a>
                     <div id="submenu-2" class="collapse submenu" style="">

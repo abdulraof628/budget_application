@@ -29,6 +29,7 @@ class AccountsController extends Controller
 
     public function newApplication(){
         
+
         $data['applications'] = Applications::where('dean_status_id',3)->get();
 
         return view('accounts.new_application')->with($data);
@@ -102,35 +103,21 @@ class AccountsController extends Controller
 
         return redirect()->route('new_application');
     }
+
+
     
-    public function applicationEdit($id, Request $request){
+    public function applicationEdit(Request $request){
         
-        Applications::where('id',$id)->update([
-            'title'  => $request->title, 
-            'justification'=>$request->justification,
-            'budget_type_id'=>$request->budget_type_id,
-            'usage_type_id'=>$request->usage_type_id,
-            'total_price_applied'=>$request->total_price_applied,
-        ]);
+        $id = $request->id;
 
-        ApplicationItems::where('application_id',$id)->delete();
+        $data = Applications::where('id', $id)->first();
+        $data->title = $request->title;
+        $data->justification = $request->justification;
+        $data->budget_type_id = $request->budget_type_id;
+        $data->usage_type_id = $request->usage_type_id;
+        $data->save();
 
-        $name_array = $request->name;
-
-        foreach($name_array as $key => $value){
-            ApplicationItems::where('id',$id)->update([
-                'name'=> $value,
-                'item_type'=>$request->item_type[$key],
-                'item_type_justification'=>$request->item_type_justification[$key],
-                'price_per_unit'=>$request->price_per_unit[$key],
-                'quantity'=>$request->quantity[$key],
-                'uom'=>$request->uom[$key],
-                'total_items_price'=>$request->total_items_price[$key],
-                'application_id'=>$data['applications']->id,
-            ]);
-        }
-        return redirect()->route('new_application');
-        /* APPLICATION DATA */
+        return back();
     }
     
 }
