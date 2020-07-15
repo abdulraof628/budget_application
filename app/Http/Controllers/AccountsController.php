@@ -11,6 +11,12 @@ use App\ApplicationItemTypes;
 
 class AccountsController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('role:Account');
+    }
+    
     public function index(){
 
         $data['total_application'] = Applications::get();

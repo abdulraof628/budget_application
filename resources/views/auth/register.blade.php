@@ -35,28 +35,28 @@
     <!-- ============================================================== -->
     <div class="splash-container">
         <div class="card ">
-            <div class="card-header text-center"><span class="splash-description">Please enter your user information.</span></div>
+            <div class="card-header text-center"><span class="splash-description">Please enter registration information.</span></div>
             <div class="card-body">
                 <form method="POST" action="{{ route('register') }}">
                 @csrf
                     <div class="form-group">
-                        <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('email') }}" required>
+                        <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('email') }}" placeholder="Name" required>
                     </div>
                     <div class="form-group">
-                        <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email">
+                        <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" placeholder="Email" required autocomplete="email">
                     </div>
                     <div class="form-group">
-                        <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
+                        <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" placeholder="Password"  required autocomplete="new-password">
                     </div>
                     <div class="form-group">
-                        <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
+                        <input id="password-confirm" type="password" class="form-control" name="password_confirmation" placeholder="Re-enter Password"  required autocomplete="new-password">
                     </div>
                     <div class="form-group">
                         <select id="role" name="role" class="form-control @error('role') is-invalid @enderror">
                             <option value="">Please select role</option>
-                            <option value="Account">Account</option>
-                            <option value="Dean">Dean</option>
-                            <option value="Bursary Officer">Bursary Officer</option>
+                            <option value="1">Account</option>
+                            <option value="2">Dean</option>
+                            <option value="3">Bursary Officer</option>
                         </select>
                     </div>
                     <button type="submit" class="btn btn-primary btn-lg btn-block">Register</button>

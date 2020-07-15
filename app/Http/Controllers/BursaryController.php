@@ -11,6 +11,12 @@ use App\ApplicationItemTypes;
 
 class BursaryController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('role:Bursary Officer');
+    }
+
     public function index(){
 
         $data['applications'] = Applications::where('dean_status_id',1)->where('bursary_status_id',3)->get();

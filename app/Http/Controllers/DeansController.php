@@ -11,6 +11,12 @@ use App\ApplicationItemTypes;
 
 class DeansController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('role:Dean');
+    }
+
     public function index(){
 
         $data['applications'] = Applications::where('dean_status_id',3)->get();
