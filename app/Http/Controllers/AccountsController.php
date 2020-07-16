@@ -22,14 +22,9 @@ class AccountsController extends Controller
         $data['total_application'] = Applications::with('status')->get();
         $data['approved_applications'] = Applications::where('dean_status_id',1)->where('bursary_status_id',1)->get();
 
-        
-        $data['rejected_applications_bursary'] = Applications::where('dean_status_id',1)->where('bursary_status_id',2)->count();
-        $data['inprogress_applications_bursary'] = Applications::where('dean_status_id',1)->where('bursary_status_id',3)->count();
+        $data['rejected_applications'] = Applications::where('dean_status_id',1)->where('bursary_status_id',2)->orWhere('dean_status_id',2)->where('bursary_status_id',1)->orWhere('dean_status_id',2)->where('bursary_status_id',2)->get();
 
-
-        $data['rejected_applications_dean'] = Applications::where('dean_status_id',2)->where('bursary_status_id',1)->get();
-        $data['rejected_applications'] = Applications::where('dean_status_id',2)->where('bursary_status_id',2)->get();
-        $data['inprogress_applications'] = Applications::where('dean_status_id',3)->orWhere('bursary_status_id',3)->get();
+        $data['inprogress_applications'] = Applications::where('dean_status_id',1)->where('bursary_status_id',3)->orWhere('dean_status_id',2)->where('bursary_status_id',3)->orWhere('dean_status_id',3)->orWhere('bursary_status_id',3)->get();
         
         return view('accounts.dashboard')->with($data);
     }
