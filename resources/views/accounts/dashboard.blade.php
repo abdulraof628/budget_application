@@ -113,6 +113,7 @@
                                             <th class="border-0">Budget Type</th>
                                             <th class="border-0">Usage Type</th>
                                             <th class="border-0">Status</th>
+                                            <th class="border-0">Remark</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -127,24 +128,31 @@
 
                                                 @if($application->dean_status_id == '1' and $application->bursary_status_id == '1')
                                                     <td><span class="badge-dot badge-success mr-1"></span>Approved</td>
+                                                    <td></td>
 
                                                 @elseif($application->dean_status_id == '1' and $application->bursary_status_id == '2')
                                                     <td><span class="badge-dot badge-danger mr-1"></span>Rejected by Bursary Officer</td>
+                                                    <td>{{$application->bursary_remark}}</td>
 
                                                 @elseif($application->dean_status_id == '1' and $application->bursary_status_id == '3')
                                                     <td><span class="badge-dot badge-info mr-1"></span>In-Progress (Bursary Officer)</td>
+                                                    <td></td>
 
                                                 @elseif($application->dean_status_id == '2' and $application->bursary_status_id == '1')
                                                     <td><span class="badge-dot badge-danger mr-1"></span>Rejected by Dean</td>
+                                                    <td>{{$application->dean_remark}}</td>
 
                                                 @elseif($application->dean_status_id == '2' and $application->bursary_status_id == '2')
                                                 <td><span class="badge-dot badge-danger mr-1"></span>Rejected by Busary Officer</td>
+                                                    <td>{{$application->bursary_remark}}</td>
 
                                                 @elseif($application->dean_status_id == '2' and $application->bursary_status_id == '3')
                                                 <td><span class="badge-dot badge-danger mr-1"></span>Rejected by Dean</td>
+                                                    <td>{{$application->dean_remark}}</td>
 
                                                 @elseif($application->dean_status_id == '3' and $application->bursary_status_id == '3')
-                                                <td><span class="badge-dot badge-danger mr-1"></span>In-Progress (Dean)</td>
+                                                <td><span class="badge-dot badge-info mr-1"></span>In-Progress (Dean)</td>
+                                                    <td></td>
                                                 @endif
                                             </tr>
                                         @endforeach

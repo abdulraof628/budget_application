@@ -448,7 +448,7 @@
             });
             
             $.ajax({
-                url: "{{Route('budget_types')}}",
+                url: "{{Route('budget_types_account')}}",
                 dataType: "json",
                 success: function(data){
                     var toAppend = '';
@@ -464,7 +464,7 @@
             });
             
             $.ajax({
-                url: "{{Route('usage_types')}}",
+                url: "{{Route('usage_types_account')}}",
                 dataType: "json",
                 success: function(data){
                     var toAppend = '';
@@ -477,7 +477,7 @@
             });
 
             $.ajax({
-                url: "{{Route('application_item_types')}}",
+                url: "{{Route('application_item_types_account')}}",
                 dataType: "json",
                 success: function(data){
                     var toAppend = '';
@@ -517,7 +517,7 @@
 
                 // // AJAX request
                 $.ajax({
-                    url: '{{Route("application_view")}}',
+                    url: '{{Route("application_view_account")}}',
                     type: 'get',
                     data: {"appid": id},
                     dataType: 'JSON',

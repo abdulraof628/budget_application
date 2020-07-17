@@ -51,12 +51,29 @@ class BursaryController extends Controller
         return json_encode($data);
     }
     
+    public function reviseAmount(Request $request){
+        $id = $request->appid;
+        $amount = $request->revise_amount_input;
+        
+        $data = Applications::updateOrInsert(
+            [
+                'id'=>$id,
+            ],
+            [
+                'total_price_approved'=>$amount
+            ]
+            );
+
+        dd($data);
+
+        return json_encode($data);
+    }
+    
     public function applicationApproveBursary(Request $request){
 
         $id = $request->appid;
 
         $data = Applications::where('id', $id)->first();
-        dd($data);
         $data->bursary_status_id = 1;
         $data->save();
         

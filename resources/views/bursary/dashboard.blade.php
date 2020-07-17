@@ -223,17 +223,15 @@
                         <label>Revise Amount</label>
                     </div>
                     <div class="col-md-2 pull-right text-right align-self-right">
-                        <input type="text" class="form-control revised_amount">
-                        <form action="">
+                        <input type="text" class="form-control revise_amount_input">
                             
-                        </form>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
                 <a href="#" class="btn btn-light" data-dismiss="modal">Close</a>
+                <a href="#" class="btn btn-success revise_amount" data-id="">Submit</a>
             </div>
-            </form>
         </div>
     </div>
 </div>
@@ -301,7 +299,7 @@
             var id=$(this).data('id');
     
             $.ajax({
-                url: '{{Route("application_view")}}',
+                url: '{{Route("application_view_bursary")}}',
                 type: 'get',
                 data: {"appid": id},
                 dataType: 'JSON',
@@ -312,6 +310,7 @@
                     $('.budget_types').val(response.application.budget_type_id);
                     $('.usage_types').val(response.application.usage_type_id);
                     $('.total_items_prices').val(response.application.total_price_applied);
+                    $('.revise_amount').attr('data-id', response.application.id);
                     $('.items').empty();
 
                     $.each(response.items,function(){
@@ -332,13 +331,36 @@
             });
         });
 
+        $('.revise_amount').on('click',function(){
+    
+            var id=$(this).data('id');
+            var revise_amount_input = $('.revise_amount_input').val();
+    
+            $.ajax({
+                url: '{{Route("revise_amount")}}',
+                type: 'get',
+                data: {"appid": id,
+                       "revise_amount_input":revise_amount_input,
+                      },
+                dataType: 'JSON',
+                success: function(response){ 
+                    
+                    $('#view_application').modal('hide'); 
+                },
+                error: function(response){ 
+                    $('#view_application').modal('hide'); 
+
+                }
+            });
+        });
+
         $('.application_approve').on('click',function(){
         
             var id=$(this).data('method');
             console.log(id);
             $.ajax({
                 headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-                url: '{{Route("application_approve_dean", 'id')}}',
+                url: '{{Route("application_approve_bursary", 'id')}}',
                 type: 'post',
                 data: {"_token": "{{ csrf_token() }}","appid": id},
                 dataType: 'JSON',
@@ -375,7 +397,7 @@
         });
         
         $.ajax({
-            url: "{{Route('budget_types')}}",
+            url: "{{Route('budget_types_bursary')}}",
             dataType: "json",
             success: function(data){
                 var toAppend = '';
@@ -391,7 +413,7 @@
         });
                 
         $.ajax({
-            url: "{{Route('usage_types')}}",
+            url: "{{Route('usage_types_bursary')}}",
             dataType: "json",
             success: function(data){
                 var toAppend = '';
@@ -404,7 +426,7 @@
         });
 
         $.ajax({
-            url: "{{Route('application_item_types')}}",
+            url: "{{Route('application_item_types_bursary')}}",
             dataType: "json",
             success: function(data){
                 var toAppend = '';

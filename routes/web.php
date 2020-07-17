@@ -41,18 +41,19 @@ Route::post('/reject_application_dean/{id}', 'DeansController@applicationRejectD
 /* Bursaries Routes */
 Route::get('/bursary_dashboard', 'BursaryController@index')->name('bursary_dashboard');
 Route::get('/view_application/view_bursary', 'BursaryController@applicationView')->name('application_view_bursary');
+Route::get('/view_application/revise_amount', 'BursaryController@reviseAmount')->name('revise_amount');
 Route::post('/approve_application_bursary/{id}', 'BursaryController@applicationApproveBursary')->name('application_approve_bursary');
 Route::post('/reject_application_bursary/{id}', 'BursaryController@applicationRejectBursary')->name('application_reject_bursary');
 /* Bursaries Routes */
 
 /* Select Option Routes */
-Route::get('/new_application/budget_types', 'AccountsController@newApplicationBudgetTypes')->name('budget_types_account')->middleware('auth');//Retrieve data from db and listdown
-Route::get('/new_application/usage_types', 'AccountsController@newApplicationUsageTypes')->name('usage_types');//Retrieve data from db and listdown
-Route::get('/new_application/application_item_types', 'AccountsController@newApplicationItemTypes')->name('application_item_types');//Retrieve data from db and listdown
-Route::get('/new_application/budget_types', 'DeansController@newApplicationBudgetTypes')->name('budget_types')->middleware('auth');//Retrieve data from db and listdown
-Route::get('/new_application/usage_types', 'DeansController@newApplicationUsageTypes')->name('usage_types');//Retrieve data from db and listdown
-Route::get('/new_application/application_item_types', 'DeansController@newApplicationItemTypes')->name('application_item_types');//Retrieve data from db and listdown
-Route::get('/new_application/budget_types', 'BursaryController@newApplicationBudgetTypes')->name('budget_types')->middleware('auth');//Retrieve data from db and listdown
-Route::get('/new_application/usage_types', 'BursaryController@newApplicationUsageTypes')->name('usage_types');//Retrieve data from db and listdown
-Route::get('/new_application/application_item_types', 'BursaryController@newApplicationItemTypes')->name('application_item_types');//Retrieve data from db and listdown
+Route::get('/new_application/budget_types_account', 'AccountsController@newApplicationBudgetTypes')->name('budget_types_account');
+Route::get('/new_application/usage_types_account', 'AccountsController@newApplicationUsageTypes')->name('usage_types_account');
+Route::get('/new_application/application_item_types_account', 'AccountsController@newApplicationItemTypes')->name('application_item_types_account');
+Route::get('/new_application/budget_types_dean', 'DeansController@newApplicationBudgetTypes')->name('budget_types_dean');
+Route::get('/new_application/usage_types_dean', 'DeansController@newApplicationUsageTypes')->name('usage_types_dean');
+Route::get('/new_application/application_item_types_dean', 'DeansController@newApplicationItemTypes')->name('application_item_types_dean');
+Route::get('/new_application/budget_types_bursary', 'BursaryController@newApplicationBudgetTypes')->name('budget_types_bursary');
+Route::get('/new_application/usage_types_bursary', 'BursaryController@newApplicationUsageTypes')->name('usage_types_bursary');
+Route::get('/new_application/application_item_types_bursary', 'BursaryController@newApplicationItemTypes')->name('application_item_types_bursary');
 /* Select Option Routes */

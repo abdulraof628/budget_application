@@ -290,7 +290,7 @@
             var id=$(this).data('id');
     
             $.ajax({
-                url: '{{Route("application_view")}}',
+                url: '{{Route("application_view_dean")}}',
                 type: 'get',
                 data: {"appid": id},
                 dataType: 'JSON',
@@ -366,7 +366,7 @@
     //     
         
         $.ajax({
-            url: "{{Route('budget_types')}}",
+            url: "{{Route('budget_types_dean')}}",
             dataType: "json",
             success: function(data){
                 var toAppend = '';
@@ -382,7 +382,7 @@
         });
                 
         $.ajax({
-            url: "{{Route('usage_types')}}",
+            url: "{{Route('usage_types_dean')}}",
             dataType: "json",
             success: function(data){
                 var toAppend = '';
@@ -395,7 +395,7 @@
         });
 
         $.ajax({
-            url: "{{Route('application_item_types')}}",
+            url: "{{Route('application_item_types_dean')}}",
             dataType: "json",
             success: function(data){
                 var toAppend = '';
