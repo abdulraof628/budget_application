@@ -218,6 +218,17 @@
                         <input type="text" class="form-control total_items_prices" disabled>
                     </div>
                 </div>
+                <div class="row pt-3 border-top">
+                    <div class="col-md-2 offset-8 pull-right text-right align-self-end">
+                        <label>Revise Amount</label>
+                    </div>
+                    <div class="col-md-2 pull-right text-right align-self-right">
+                        <input type="text" class="form-control revised_amount">
+                        <form action="">
+                            
+                        </form>
+                    </div>
+                </div>
             </div>
             <div class="modal-footer">
                 <a href="#" class="btn btn-light" data-dismiss="modal">Close</a>
