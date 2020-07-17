@@ -46,7 +46,7 @@ Route::post('/reject_application_bursary/{id}', 'BursaryController@applicationRe
 /* Bursaries Routes */
 
 /* Select Option Routes */
-Route::get('/new_application/budget_types', 'AccountsController@newApplicationBudgetTypes')->name('budget_types')->middleware('auth');//Retrieve data from db and listdown
+Route::get('/new_application/budget_types', 'AccountsController@newApplicationBudgetTypes')->name('budget_types_account')->middleware('auth');//Retrieve data from db and listdown
 Route::get('/new_application/usage_types', 'AccountsController@newApplicationUsageTypes')->name('usage_types');//Retrieve data from db and listdown
 Route::get('/new_application/application_item_types', 'AccountsController@newApplicationItemTypes')->name('application_item_types');//Retrieve data from db and listdown
 Route::get('/new_application/budget_types', 'DeansController@newApplicationBudgetTypes')->name('budget_types')->middleware('auth');//Retrieve data from db and listdown
