@@ -33,17 +33,15 @@ class AccountsController extends Controller
         
 
         $data['applications'] = Applications::where('dean_status_id',3)->get();
-        $data['budget_types'] = BudgetTypes::get();
-        $data['usage_types'] = UsageTypes::get();
-        $data['application_item_types'] = ApplicationItemTypes::get();
 
         return view('accounts.new_application')->with($data);
     }
     
-    // public function newApplicationBudgetTypes(){
+    public function newApplicationBudgetTypes(){
 
-    //     return json_decode($budgetTypes);
-    // }
+        $budgetTypes = BudgetTypes::get();
+        return json_decode($budgetTypes);
+    }
     
     public function newApplicationUsageTypes(){
 
