@@ -141,12 +141,18 @@
                                         <label class="col-form-label">Budget Type</label>
                                         <select name="budget_type_id" class="form-control budget_types">
                                             <option value="">Please select budget type</option>
+                                            @foreach($budget_types as $key=>$budget_type )
+                                                <option value="{{$budget_type->id}}">{{$budget_type->type_name}}</option>
+                                            @endforeach
                                         </select>
                                     </div>
                                     <div class="form-group pb-3">
                                         <label class="col-form-label">Usage Type</label>
                                         <select name="usage_type_id" class="form-control usage_types">
                                             <option value="">Please select usage type</option>
+                                            @foreach($usage_types as $key=>$usage_type )
+                                                <option value="{{$usage_type->id}}">{{$usage_type->type_name}}</option>
+                                            @endforeach
                                         </select>
                                     </div>
                                 </div>  
@@ -163,6 +169,9 @@
                                     <label class="col-form-label item_type">Type</label>
                                     <select name="application_item_type_id" class="form-control application_item_types">
                                         <option value="">Please select item type</option>
+                                        @foreach($application_item_types as $key=>$application_item_type )
+                                            <option value="{{$application_item_type->id}}">{{$application_item_type->item_type_name}}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>
@@ -447,48 +456,6 @@
                 }
             });
             
-            $.ajax({
-                url: "{{Route('budget_types')}}",
-                dataType: "json",
-                success: function(data){
-                    var toAppend = '';
-                    $.each(data,function(i,o){
-                        
-                        toAppend += '<option value="'+o.id+'">'+o.type_name+'</option>';
-                    });
-
-                    $('.budget_types').append(toAppend);
-                    
-                    $(".budget_types").val(); 
-                }
-            });
-            
-            $.ajax({
-                url: "{{Route('usage_types')}}",
-                dataType: "json",
-                success: function(data){
-                    var toAppend = '';
-                    $.each(data,function(i,o){
-                    toAppend += '<option value="'+o.id+'">'+o.type_name+'</option>';
-                    });
-
-                    $('.usage_types').append(toAppend);
-                }
-            });
-
-            $.ajax({
-                url: "{{Route('application_item_types')}}",
-                dataType: "json",
-                success: function(data){
-                    var toAppend = '';
-                    $.each(data,function(i,o){
-                    toAppend += '<option value="'+o.item_type_name+'">'+o.item_type_name+'</option>';
-                    });
-
-                    $('.application_item_types').append(toAppend);
-                }
-            });
-
             $('.application_item_types').change(function(){
                 if($('.application_item_types').val()=='Asset'){
                     $('.application_item_justification').empty();
