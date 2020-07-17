@@ -67,28 +67,31 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        User::create([
+        $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
             'role' => $data['role'],
         ]); 
-
-        RoleUser::create([
+        
+        $role = RoleUser::create([
             'role_id' => $data['role'],
             'user_id' => $user->id,
         ]);
+
+        return ($user);
+        
     }
     
-    public function redirectTo()
+    public function redirectTo($guard = null)
     {
-        if (Auth::user()->role == '1') {
+        if (Auth::guard($guard)->check() && Auth::user()->role == '1') {
             return '/account_dashboard';
         } 
-        else if (Auth::user()->role == '2') {
+        else if (Auth::guard($guard)->check() && Auth::user()->role == '2') {
             return '/dean_dashboard';
         } 
-        else if (Auth::user()->role == '3') {
+        else if (Auth::guard($guard)->check() && Auth::user()->role == '3') {
             return '/bursary_dashboard';
         }
         else{

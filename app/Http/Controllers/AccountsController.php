@@ -19,10 +19,12 @@ class AccountsController extends Controller
     
     public function index(){
 
-        $data['total_application'] = Applications::get();
+        $data['total_application'] = Applications::with('status')->get();
         $data['approved_applications'] = Applications::where('dean_status_id',1)->where('bursary_status_id',1)->get();
-        $data['rejected_applications'] = Applications::where('dean_status_id',2)->orWhere('bursary_status_id',2)->get();
-        $data['inprogress_applications'] = Applications::where('dean_status_id',3)->orWhere('bursary_status_id',3)->get();
+
+        $data['rejected_applications'] = Applications::where('dean_status_id',1)->where('bursary_status_id',2)->orWhere('dean_status_id',2)->where('bursary_status_id',1)->orWhere('dean_status_id',2)->where('bursary_status_id',2)->get();
+
+        $data['inprogress_applications'] = Applications::where('dean_status_id',1)->where('bursary_status_id',3)->orWhere('dean_status_id',2)->where('bursary_status_id',3)->orWhere('dean_status_id',3)->orWhere('bursary_status_id',3)->get();
         
         return view('accounts.dashboard')->with($data);
     }
@@ -104,20 +106,51 @@ class AccountsController extends Controller
         return redirect()->route('new_application');
     }
 
-
-    
-    public function applicationEdit(Request $request){
+    public function applicationEdit($id){
         
+        $data['applications'] = Applications::where('id', $id)->first();
+        $data['items'] = ApplicationItems::where('application_id', $id)->get();
+        // dd( $data['items']);
+
+        return view('accounts.edit_application', $data);
+    }
+
+    public function applicationUpdate($id, Request $request){
+        $balance = ApplicationItems::where('application_id',  $id)->sum('total_items_price');
+        $data['application_update'] = Applications::updateOrInsert(
+            [
+                'id'=>$id
+            ],
+            [
+                'title'=>$request->title_update,
+                'justification'=>$request->justification_update,
+                'budget_type_id'=>$request->budget_type_id_update,
+                'usage_type_id'=>$request->budget_type_id_update,
+                'total_price_applied'=>$balance,
+            ]
+        );
+        return redirect()->back();
+    }
+
+    public function itemUpdateNew($id, Request $request){
+        
+        ApplicationItems::create([
+            'name'=> $request->name_update,
+            'item_type'=>$request->item_type_update,
+            'item_type_justification'=>$request->item_type_justification_update,
+            'price_per_unit'=>$request->price_per_unit_update,
+            'quantity'=>$request->quantity_update,
+            'uom'=>$request->uom_update,
+            'total_items_price'=>$request->total_items_price_update,
+            'application_id'=>$id,
+        ]);
+    }
+
+    public function itemDelete(Request $request){
         $id = $request->id;
+        ApplicationItems::where('id',$id)->delete();
 
-        $data = Applications::where('id', $id)->first();
-        $data->title = $request->title;
-        $data->justification = $request->justification;
-        $data->budget_type_id = $request->budget_type_id;
-        $data->usage_type_id = $request->usage_type_id;
-        $data->save();
-
-        return back();
+        return redirect()->back();
     }
     
 }

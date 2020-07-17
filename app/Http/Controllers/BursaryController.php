@@ -36,6 +36,12 @@ class BursaryController extends Controller
         return json_decode($usageTypes);
     }
     
+    public function newApplicationItemTypes(){
+
+        $applicationItemTypes = ApplicationItemTypes::get();
+        return json_decode($applicationItemTypes);
+    }
+    
     public function applicationView(Request $request){
 
         $id = $request->appid;

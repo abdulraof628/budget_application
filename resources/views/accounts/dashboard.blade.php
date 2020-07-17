@@ -76,7 +76,7 @@
                         <div class="card-body">
                             <h5 class="text-danger">Total Applications Rejected</h5>
                             <div class="metric-value d-inline-block">
-                                <h1 class="mb-1">{{count($rejected_applications)??0}}</h1>
+                                <h1 class="mb-1">{{count($rejected_applications)}}</h1>
                             </div>
                         </div>
                     </div>
@@ -124,14 +124,27 @@
                                                 <td>{{$application->justification}}</td>
                                                 <td>{{$application->budgetTypes->type_name ?? 'empty'}}</td>
                                                 <td>{{$application->usageTypes->type_name ?? 'empty'}}</td>
+
                                                 @if($application->dean_status_id == '1' and $application->bursary_status_id == '1')
-                                                    <td><span class="badge-dot badge-success mr-1"></span>{{$application->status->status_name ?? 'empty'}}</td>
-                                                @elseif($application->dean_status_id == '2' or $application->bursary_status_id == '2')
-                                                    <td><span class="badge-dot badge-danger mr-1"></span>{{$application->status->status_name ?? 'empty'}}</td>
-                                                @elseif($application->dean_status_id == '3' and $application->bursary_status_id == '3')
-                                                    <td><span class="badge-dot badge-info mr-1"></span>{{$application->status->status_name ?? 'empty'}} (Dean)</td>
+                                                    <td><span class="badge-dot badge-success mr-1"></span>Approved</td>
+
+                                                @elseif($application->dean_status_id == '1' and $application->bursary_status_id == '2')
+                                                    <td><span class="badge-dot badge-danger mr-1"></span>Rejected by Bursary Officer</td>
+
                                                 @elseif($application->dean_status_id == '1' and $application->bursary_status_id == '3')
                                                     <td><span class="badge-dot badge-info mr-1"></span>In-Progress (Bursary Officer)</td>
+
+                                                @elseif($application->dean_status_id == '2' and $application->bursary_status_id == '1')
+                                                    <td><span class="badge-dot badge-danger mr-1"></span>Rejected by Dean</td>
+
+                                                @elseif($application->dean_status_id == '2' and $application->bursary_status_id == '2')
+                                                <td><span class="badge-dot badge-danger mr-1"></span>Rejected by Busary Officer</td>
+
+                                                @elseif($application->dean_status_id == '2' and $application->bursary_status_id == '3')
+                                                <td><span class="badge-dot badge-danger mr-1"></span>Rejected by Dean</td>
+
+                                                @elseif($application->dean_status_id == '3' and $application->bursary_status_id == '3')
+                                                <td><span class="badge-dot badge-danger mr-1"></span>In-Progress (Dean)</td>
                                                 @endif
                                             </tr>
                                         @endforeach

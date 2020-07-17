@@ -64,7 +64,6 @@ class DeansController extends Controller
 
         $data = Applications::where('id', $id)->first();
         $data->dean_status_id = 2;
-        $data->bursary_status_id = 2;
         $data->dean_remark = $request->remark;
         $data->save();
 
